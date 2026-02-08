@@ -20,7 +20,7 @@ jobs:
       - name: Login Docker
         run: docker login -u ahlirobot -p ${{ secrets.GITLABPASSWORD }}
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ahlirobot/live-audio-lemdik:latest
+        run: docker build . --file Dockerfile --tag ahlirobot/live-audio-lemdik:latest --build-arg GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
       - name: Push the Docker image
         run: docker push ahlirobot/live-audio-lemdik:latest
       - name: run the docker

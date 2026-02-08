@@ -18,6 +18,8 @@ RUN npm ci
 COPY . .
 
 # Build the application
+ARG GEMINI_API_KEY
+ENV GEMINI_API_KEY=$GEMINI_API_KEY
 RUN npm run build
 
 # Stage 2: Production stage

@@ -117,8 +117,13 @@ export class GdmLiveAudio extends LitElement {
   private async initClient() {
     this.nextStartTime = this.outputAudioContext.currentTime;
     try {
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        this.updateError("API Key not found. Please check your .env file.");
+        return;
+      }
       this.client = new GoogleGenAI({
-        apiKey: process.env.GEMINI_API_KEY,
+        apiKey: apiKey,
       });
       this.outputNode.connect(this.outputAudioContext.destination);
       this.initSession();
@@ -317,6 +322,12 @@ export class GdmLiveAudio extends LitElement {
 
       this.scriptProcessorNode.onaudioprocess = (audioProcessingEvent) => {
         if (!this.isRecording || !this.sessionPromise) return;
+
+        // Auto-Mute: Logic to prevent echo/interruption when AI is speaking
+        if (this.conversationState === 'speaking' || this.isAiTurn) {
+          return;
+        }
+
         const inputData = audioProcessingEvent.inputBuffer.getChannelData(0);
         this.sessionPromise.then((session) => {
           session.sendRealtimeInput({ media: createBlob(inputData) });
@@ -390,7 +401,7 @@ export class GdmLiveAudio extends LitElement {
         // Using a gradient border or background
         color: 'bg-gradient-to-r from-black/80 to-cyan-900/30 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]',
         icon: '🔊',
-        text: 'Speaking...',
+        text: 'Speaking... (Mic Muted)',
         textColor: 'text-cyan-400 font-bold drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]'
       };
       case 'idle': return null;
@@ -444,7 +455,9 @@ export class GdmLiveAudio extends LitElement {
           <div class="flex flex-col gap-2">
             <label class="text-[10px] text-white/40 font-bold uppercase tracking-wider px-1 flex justify-between">
               <span>Audio Input</span>
-              <span class="text-emerald-500/50">Online</span>
+              <span class="${this.conversationState === 'speaking' || this.isAiTurn ? 'text-red-500/80 animate-pulse' : 'text-emerald-500/50'}">
+                ${this.conversationState === 'speaking' || this.isAiTurn ? 'MUTED (AI Speaking)' : 'Online'}
+              </span>
             </label>
             <div class="relative group">
               <select 

@@ -36,16 +36,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build App (Inject Key)
-        run: npm run build
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-
       - name: Build and Release
         uses: samuelmeuli/action-electron-builder@v1
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         with:
           github_token: ${{ secrets.github_token }}
-          skip_build: true
           # Conditional args for Linux to ensure RPM is built
           args: ${{ matrix.os == 'ubuntu-latest' && '--linux rpm AppImage' || (matrix.os == 'macos-latest' && '--mac' || '--win') }}
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
