@@ -1,0 +1,103 @@
+{
+  "name": "live-audio",
+  "productName": "live-audio-ai",
+  "private": true,
+  "version": "1.0.10",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "author": "Developer",
+  "description": "Live Audio AI Assistant Application",
+  "license": "MIT",
+  "homepage": "./",
+  "scripts": {
+    "dev:client": "vite --host",
+    "dev:server": "tsx watch server/server.ts",
+    "dev": "npm run dev:client",
+    "electron": "wait-on tcp:5173 && electron .",
+    "dev:electron": "concurrently \"npm:dev:client\" \"npm:electron\"",
+    "build": "vite build",
+    "build:electron": "npm version patch --no-git-tag-version && npm run build && electron-builder",
+    "build:win": "npm version patch --no-git-tag-version && npm run build && electron-builder --win",
+    "prebuild:linux": "rm -rf release",
+    "build:linux": "npm version patch --no-git-tag-version && npm run build && electron-builder --linux rpm AppImage",
+    "build:all": "npm version patch --no-git-tag-version && npm run build && electron-builder --win --linux",
+    "preview": "vite preview"
+  },
+  "build": {
+    "appId": "com.liveaudio.ai",
+    "productName": "live-audio-ai",
+    "executableName": "live-audio-ai",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "dist/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "rpm",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Utility",
+      "maintainer": "Developer",
+      "executableName": "live-audio-ai"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
+    "asar": true,
+    "asarUnpack": [
+      "dist/**/*"
+    ]
+  },
+  "dependencies": {
+    "@google/genai": "^1.26.0",
+    "@lit/context": "^1.1.5",
+    "dotenv": "^17.2.2",
+    "express": "^4.21.2",
+    "lit": "^3.3.0",
+    "mammoth": "^1.10.0",
+    "minisearch": "^7.1.0",
+    "motion": "^12.29.2",
+    "pdf-parse": "^1.1.1",
+    "three": "^0.176.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^9.1.2",
+    "electron": "^40.0.0",
+    "electron-builder": "^25.1.8",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.16",
+    "tsx": "^4.0.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0",
+    "wait-on": "^9.0.3"
+  }
+}

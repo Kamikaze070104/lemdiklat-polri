@@ -1,0 +1,31 @@
+{
+  "docs": [
+    {
+      "id": "2c8b0e2b2146",
+      "title": "Buku Panduan Mappi AI Hub.pdf",
+      "publicPath": "/content/Buku Panduan Mappi AI Hub.pdf",
+      "hash": "2c8b0e2b2146d836ac42b956ba87151833fd4b36769c9706406ffaac6568ceb5",
+      "size": 1831671,
+      "indexedAt": "2026-02-04T15:24:46.667Z",
+      "chunkCount": 3
+    },
+    {
+      "id": "c33fb7d2cfd3",
+      "title": "notulen 22 agustus PT MICROVISON STRADA.pdf",
+      "publicPath": "/content/notulen 22 agustus PT MICROVISON STRADA.pdf",
+      "hash": "c33fb7d2cfd3a1b41e87c53f2642d2450eb3de73238865ee125829ad738403e6",
+      "size": 789943,
+      "indexedAt": "2026-02-04T15:24:46.729Z",
+      "chunkCount": 1
+    },
+    {
+      "id": "ea5cfb7551de",
+      "title": "Roadmap_ Full Development hingga UAT.pdf",
+      "publicPath": "/content/Roadmap_ Full Development hingga UAT.pdf",
+      "hash": "ea5cfb7551dea6d9b59df13ce18b542b144073da54696a26f868e344cff0850a",
+      "size": 97838,
+      "indexedAt": "2026-02-04T15:24:46.790Z",
+      "chunkCount": 1
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+name: Docker Image CI
+run-name: ${{ github.actor }} execute after pushes 🚀
+
+on:
+  push:
+    branches: [lemdiklat]
+  pull_request:
+    branches: [lemdiklat]
+
+jobs:
+  build:
+    runs-on: kube
+
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Login Docker
+        run: docker login -u ahlirobot -p ${{ secrets.GITLABPASSWORD }}
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ahlirobot/live-audio-lemdik:latest
+      - name: Push the Docker image
+        run: docker push ahlirobot/live-audio-lemdik:latest
+      - name: run the docker
+        run: kubectl rollout restart deployment/live-audio-lemdik-deployment -n bot || true
