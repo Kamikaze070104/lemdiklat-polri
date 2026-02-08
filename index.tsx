@@ -118,7 +118,7 @@ export class GdmLiveAudio extends LitElement {
     this.nextStartTime = this.outputAudioContext.currentTime;
     try {
       this.client = new GoogleGenAI({
-        apiKey: process.env.GEMINI_API_KEY || 'AIzaSyAZrbxtxIPjjzz0yniziwzUZTVPBB1EqJI',
+        apiKey: process.env.GEMINI_API_KEY,
       });
       this.outputNode.connect(this.outputAudioContext.destination);
       this.initSession();

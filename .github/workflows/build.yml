@@ -38,6 +38,8 @@ jobs:
 
       - name: Build and Release
         uses: samuelmeuli/action-electron-builder@v1
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         with:
           github_token: ${{ secrets.github_token }}
           # Conditional args for Linux to ensure RPM is built
