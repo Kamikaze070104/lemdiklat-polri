@@ -2,6 +2,12 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const os = require('os');
 
+// FIX: Disable sandbox on Linux to prevent startup crashes (common in Kiosk/Fedora)
+if (process.platform === 'linux') {
+    app.commandLine.appendSwitch('no-sandbox');
+    app.commandLine.appendSwitch('disable-gpu-sandbox');
+}
+
 function createWindow() {
     const win = new BrowserWindow({
         fullscreen: true,
